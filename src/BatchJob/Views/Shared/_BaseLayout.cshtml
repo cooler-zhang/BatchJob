@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+@Html.Partial("_HeaderPartial")
+<body>
+    @Html.Partial("_BodyTopPartial")
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    @Html.Partial("_FooterPartial")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

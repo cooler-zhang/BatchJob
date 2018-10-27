@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BatchJob.Models.ServiceViewModel>
+
+@{
+    ViewBag.Title = "服务管理";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("新增", "add-service",new { jobId = ViewBag.JobId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperationContractName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MethodName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parameters)
+        </th>
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OperationContractName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MethodName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Parameters)
+        </td>
+        <td>
+            <a class="pointerLink" onclick="deleteConfirm('hidServiceId',@item.Id)">删除</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+@using (Html.BeginForm("remove-service", "", FormMethod.Post, new { @id = "formDelete" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="serviceId" id="hidServiceId" />
+}

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BatchJob.Models.JobGroupViewModel>
+
+@{
+    ViewBag.Title = "作业组管理";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("新增作业组", "create-job-group",new { schedulerId = ViewBag.SchedulerId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SchedulerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchedulerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <a class="pointerLink" onclick="deleteConfirm('hidJobGroupId',@item.Id)">删 除</a>
+        </td>
+    </tr>
+}
+</table>
+
+@using (Html.BeginForm("delete-job-group", "home", FormMethod.Post, new { @id = "formDelete" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="jobGroupId" id="hidJobGroupId" />
+}

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BatchJob.Models.TriggerViewModel>
+
+@{
+    ViewBag.Title = "触发器管理";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("新增Cron触发器", "create-cron-trigger")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobName)
+        </th>
+        <th>操作</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var editAction = item.Type == BatchJob.Common.TriggerType.Cron ? "edit-cron-trigger" : "";
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobName)
+            </td>
+            <td>
+
+                @Html.ActionLink("修改", editAction, new { id = item.Id }) |
+                <a class="pointerLink" onclick="deleteConfirm('hidTriggerId',@item.Id)">删除</a>
+            </td>
+        </tr>
+    }
+</table>
+
+@using (Html.BeginForm("delete-trigger", "home", FormMethod.Post, new { @id = "formDelete" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="triggerId" id="hidTriggerId" />
+}

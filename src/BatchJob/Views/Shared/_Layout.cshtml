@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+@Html.Partial("_HeaderPartial")
+<body>
+    @Html.Partial("_BodyTopPartial")
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-2 navigator">
+                @Html.Partial("_NavigatorPartial")
+            </div>
+            <div class="nav nav-pills nav-stacked col-md-10">
+                @RenderBody()
+            </div>
+        </div>
+        <hr />
+    </div>
+    @Html.Partial("_FooterPartial")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

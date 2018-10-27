@@ -1,0 +1,80 @@
+﻿@model BatchJob.Models.ServiceViewModel
+
+@{
+    ViewBag.Title = "新增服务";
+    var defaultDropDownList = new List<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("add-service", "", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.JobId)
+
+        <div ng-app="addServiceApp" ng-controller="methodParameterCtrl">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ServiceAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.ServiceAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtServiceAddress" } })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-search" onclick="resolveService()"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ServiceAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ContractMethod", defaultDropDownList, htmlAttributes: new { @class = "form-control", @id = "ddlContractMethod" })
+                    @Html.ValidationMessageFor(model => model.ContractMethod, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("方法参数", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div id="divServiceParameters" ng-repeat="para in paras">
+                        <label>{{para.ParameterName}}</label>
+                        <input type='text' class='form-control text-box single-line' name='{{para.ParameterName}}' />
+                    </div>
+                    <input type='hidden' name='MethodParameter' value='{{parameters}}'>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="新 增" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("返回作业", "service-manager", new { jobId = Model.JobId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(function () {
+        var app = angular.module('addServiceApp', []);
+        $('#ddlContractMethod').attr('ng-change', 'contractMethodChanged()');
+        $('#ddlContractMethod').attr('ng-model', 'contractMethod');
+        app.controller('methodParameterCtrl', function ($scope) {
+            $scope.contractMethodChanged = function () {
+                var parameters = $("#ddlContractMethod").find("option:selected").attr('parameter');
+                $scope.parameters = parameters;
+                $scope.paras = $.parseJSON(parameters);
+            }
+        });
+    });
+</script>

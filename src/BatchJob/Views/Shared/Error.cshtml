@@ -1,0 +1,11 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    var errorMessage = ViewBag.ErrorMessage!=null? ViewBag.ErrorMessage : "An error occurred while processing your request.";
+    var url = ViewBag.ReturnUrl != null ? ViewBag.ReturnUrl : Url.Action("index", "home");
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">@errorMessage</h2>
+<a href="@url">Back</a>

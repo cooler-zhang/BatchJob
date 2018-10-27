@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BatchJob.Models.SchedulerViewModel>
+
+@{
+    ViewBag.Title = "调度器管理";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("新增", "create-scheduler")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsRunning)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThreadPoolSize)
+        </th>
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsRunning)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThreadPoolSize)
+        </td>
+        <td>
+            @Html.ActionLink("作业组", "job-group-manager", new { schedulerId = item.Id }) |
+            @Html.ActionLink("修改", "edit-scheduler", new { id=item.Id }) |
+            <a class="pointerLink" onclick="deleteConfirm('hidSchedulerId',@item.Id)">删除</a>
+        </td>
+    </tr>
+}
+</table>
+
+@using (Html.BeginForm("delete-scheduler", "home", FormMethod.Post, new { @id = "formDelete" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="schedulerId" id="hidSchedulerId" />
+}

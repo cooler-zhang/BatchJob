@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Success";
+    var message = ViewBag.Message != null ? ViewBag.Message : "Excute Success.";
+    var url = ViewBag.ReturnUrl != null ? ViewBag.ReturnUrl : Url.Action("index", "home");
+}
+
+<div id="div_success_alter" class="alert alert-success">
+    <strong>@message</strong>
+    <a href="@url">Back</a>
+</div>
